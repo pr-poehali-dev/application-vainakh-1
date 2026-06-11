@@ -1,153 +1,162 @@
 import { useState } from "react";
 import Icon from "@/components/ui/icon";
 import { STORIES, POSTS, EXPLORE_POSTS, type Post } from "./data";
+import ThemeToggle from "./ThemeToggle";
+import { type Theme } from "./useTheme";
 
 interface FeedScreenProps {
-  onExplore?: () => void;
+  theme?: Theme;
+  onThemeToggle?: () => void;
 }
-
-const OnlineDot = ({ online, recent }: { online: boolean; recent?: boolean }) => {
-  if (!online && !recent) return null;
-  return (
-    <span
-      className="absolute bottom-0 right-0 w-3 h-3 rounded-full border-2"
-      style={{
-        background: online ? "var(--vn-online)" : "var(--vn-recent)",
-        borderColor: "var(--vn-dark)",
-      }}
-    />
-  );
-};
 
 const PostCard = ({ post, onFire }: { post: Post; onFire: (id: number) => void }) => {
   const [fired, setFired] = useState(false);
 
-  const handleFire = () => {
-    setFired((p) => !p);
-    onFire(post.id);
-  };
-
   return (
-    <div className="vn-card rounded-2xl overflow-hidden animate-fade-in">
+    <div
+      className="rounded-xl overflow-hidden animate-fade-in"
+      style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
+    >
       {/* Header */}
-      <div className="flex items-center gap-3 p-4 pb-3">
+      <div className="flex items-center gap-3 px-4 pt-4 pb-3">
         <div className="relative">
           <div
-            className="w-10 h-10 rounded-full flex items-center justify-center text-xl flex-shrink-0"
-            style={{ background: "var(--vn-card-2)" }}
+            className="w-9 h-9 rounded-full flex items-center justify-center text-lg flex-shrink-0"
+            style={{ background: "var(--bg-3)" }}
           >
             {post.avatar}
           </div>
-          <OnlineDot online={post.online} recent={post.recentlyOnline} />
+          {post.online && (
+            <span
+              className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full border-2"
+              style={{ background: "var(--online)", borderColor: "var(--surface)" }}
+            />
+          )}
+          {!post.online && post.recentlyOnline && (
+            <span
+              className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full border-2"
+              style={{ background: "var(--recent)", borderColor: "var(--surface)" }}
+            />
+          )}
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-white font-semibold text-sm truncate">{post.name}</p>
-          <p className="text-xs" style={{ color: "rgba(255,255,255,0.4)" }}>{post.time}</p>
+          <p className="text-sm font-semibold truncate" style={{ color: "var(--text)" }}>
+            {post.name}
+          </p>
+          <p className="text-xs" style={{ color: "var(--text-3)" }}>{post.time}</p>
         </div>
-        <button className="p-1">
-          <Icon name="MoreHorizontal" size={18} style={{ color: "rgba(255,255,255,0.3)" }} />
+        <button>
+          <Icon name="MoreHorizontal" size={16} style={{ color: "var(--text-3)" }} />
         </button>
       </div>
 
-      {/* Content */}
+      {/* Image */}
       {post.image && (
-        <div className="relative">
-          <img
-            src={post.image}
-            alt=""
-            className="w-full object-cover"
-            style={{ maxHeight: "280px" }}
-          />
-        </div>
+        <img src={post.image} alt="" className="w-full object-cover" style={{ maxHeight: "260px" }} />
       )}
 
+      {/* Audio */}
       {post.type === "audio" && (
         <div
-          className="mx-4 mb-3 p-4 rounded-xl flex items-center gap-3"
-          style={{ background: "rgba(255,107,26,0.08)", border: "1px solid rgba(255,107,26,0.2)" }}
+          className="mx-4 mb-3 p-3 rounded-lg flex items-center gap-3"
+          style={{ background: "var(--bg-3)", border: "1px solid var(--border)" }}
         >
           <button
-            className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
-            style={{ background: "var(--vn-grad)" }}
+            className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
+            style={{ background: "var(--text)", color: "var(--bg)" }}
           >
-            <Icon name="Play" size={16} className="text-white ml-0.5" />
+            <Icon name="Play" size={13} className="ml-0.5" />
           </button>
-          <div className="flex-1">
-            <div className="flex gap-1 items-end h-6">
-              {[3, 5, 8, 4, 7, 6, 9, 5, 3, 7, 4, 6, 8, 5].map((h, i) => (
-                <div
-                  key={i}
-                  className="w-1 rounded-full"
-                  style={{
-                    height: `${h * 2}px`,
-                    background: i < 6 ? "var(--vn-orange)" : "rgba(255,255,255,0.2)",
-                  }}
-                />
-              ))}
-            </div>
-            <p className="text-xs mt-1" style={{ color: "rgba(255,255,255,0.4)" }}>0:42</p>
+          <div className="flex gap-0.5 items-end h-5 flex-1">
+            {[3, 5, 8, 4, 7, 6, 9, 5, 3, 7, 4, 6, 8].map((h, i) => (
+              <div
+                key={i}
+                className="w-1 rounded-full"
+                style={{
+                  height: `${h * 2}px`,
+                  background: i < 6 ? "var(--text)" : "var(--border-2)",
+                }}
+              />
+            ))}
           </div>
-          <span className="text-xs font-semibold" style={{ color: "var(--vn-orange)" }}>1.5x</span>
+          <span className="text-xs font-medium" style={{ color: "var(--text-3)" }}>0:42</span>
         </div>
       )}
 
+      {/* Text */}
       {post.text && (
-        <p className="px-4 py-2 text-sm text-white/85 leading-relaxed">{post.text}</p>
+        <p className="px-4 py-2 text-sm leading-relaxed" style={{ color: "var(--text)" }}>
+          {post.text}
+        </p>
       )}
 
       {/* Actions */}
-      <div className="flex items-center gap-1 px-4 py-3 pt-1">
+      <div
+        className="flex items-center gap-0.5 px-3 py-2 mt-1"
+        style={{ borderTop: "1px solid var(--border)" }}
+      >
         <button
-          onClick={handleFire}
-          className="flex items-center gap-1.5 px-3 py-2 rounded-xl transition-all"
+          onClick={() => { setFired((p) => !p); onFire(post.id); }}
+          className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm transition-all"
           style={{
-            background: fired ? "rgba(255,107,26,0.15)" : "transparent",
-            color: fired ? "var(--vn-orange)" : "rgba(255,255,255,0.5)",
+            color: fired ? "var(--text)" : "var(--text-3)",
+            background: fired ? "var(--accent-bg)" : "transparent",
+            fontWeight: fired ? 600 : 400,
           }}
         >
-          <span className="text-base">{fired ? "🔥" : "🔥"}</span>
-          <span className="text-sm font-semibold">{post.fires + (fired ? 1 : 0)}</span>
+          🔥 {post.fires + (fired ? 1 : 0)}
         </button>
-        <button className="flex items-center gap-1.5 px-3 py-2 rounded-xl transition-all hover:bg-white/5"
-          style={{ color: "rgba(255,255,255,0.5)" }}>
-          <Icon name="MessageCircle" size={17} />
-          <span className="text-sm font-semibold">{post.comments}</span>
+        <button
+          className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm transition-all"
+          style={{ color: "var(--text-3)" }}
+        >
+          <Icon name="MessageCircle" size={15} /> {post.comments}
         </button>
-        <button className="flex items-center gap-1.5 px-3 py-2 rounded-xl transition-all hover:bg-white/5"
-          style={{ color: "rgba(255,255,255,0.5)" }}>
-          <Icon name="Share2" size={17} />
+        <button
+          className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm transition-all"
+          style={{ color: "var(--text-3)" }}
+        >
+          <Icon name="Share2" size={15} />
         </button>
-        <button className="ml-auto flex items-center gap-1.5 px-3 py-2 rounded-xl transition-all hover:bg-white/5"
-          style={{ color: "rgba(255,255,255,0.3)" }}>
-          <Icon name="Bookmark" size={17} />
+        <button
+          className="ml-auto px-3 py-2 rounded-lg transition-all"
+          style={{ color: "var(--text-3)" }}
+        >
+          <Icon name="Bookmark" size={15} />
         </button>
       </div>
     </div>
   );
 };
 
-const FeedScreen = ({ onExplore }: FeedScreenProps) => {
+const FeedScreen = ({ theme, onThemeToggle }: FeedScreenProps) => {
   const [posts, setPosts] = useState(POSTS);
   const [showExplore, setShowExplore] = useState(false);
   const [activeStory, setActiveStory] = useState<number | null>(null);
 
-  const handleFire = (id: number) => {
-    setPosts((p) => p.map((post) => post.id === id ? { ...post, fires: post.fires + 1 } : post));
-  };
-
-  const explorePosts = EXPLORE_POSTS;
+  const handleFire = (id: number) =>
+    setPosts((p) => p.map((post) => (post.id === id ? { ...post, fires: post.fires + 1 } : post)));
 
   if (showExplore) {
     return (
       <div className="flex flex-col h-full animate-fade-in">
-        <div className="flex items-center gap-3 px-4 py-4 sticky top-0 z-10 vn-glass">
-          <button onClick={() => setShowExplore(false)} className="p-2 rounded-xl hover:bg-white/5">
-            <Icon name="ArrowLeft" size={20} className="text-white" />
+        <div
+          className="flex items-center gap-3 px-4 py-4 sticky top-0 z-10"
+          style={{ background: "var(--bg)", borderBottom: "1px solid var(--border)" }}
+        >
+          <button
+            onClick={() => setShowExplore(false)}
+            className="p-2 rounded-lg transition-all"
+            style={{ background: "var(--surface)", border: "1px solid var(--border)" }}
+          >
+            <Icon name="ArrowLeft" size={17} style={{ color: "var(--text)" }} />
           </button>
-          <h2 className="text-white font-bold text-lg flex-1">🔥 Популярное</h2>
+          <h2 className="font-semibold flex-1" style={{ color: "var(--text)" }}>
+            Популярное
+          </h2>
         </div>
-        <div className="flex-1 overflow-y-auto px-4 pb-4 space-y-3">
-          {explorePosts.map((post) => (
+        <div className="flex-1 overflow-y-auto px-4 pb-4 space-y-3 pt-3">
+          {EXPLORE_POSTS.map((post) => (
             <PostCard key={post.id} post={post} onFire={handleFire} />
           ))}
         </div>
@@ -158,29 +167,47 @@ const FeedScreen = ({ onExplore }: FeedScreenProps) => {
   return (
     <div className="flex flex-col h-full">
       {/* Top bar */}
-      <div className="flex items-center justify-between px-4 py-4 sticky top-0 z-10"
-        style={{ background: "rgba(13,15,20,0.95)", backdropFilter: "blur(20px)" }}>
-        <h1 className="text-2xl font-black vn-grad-text">ВАЙНАХ</h1>
-        <div className="flex gap-2">
+      <div
+        className="flex items-center justify-between px-4 py-3 sticky top-0 z-10"
+        style={{ background: "var(--bg)", borderBottom: "1px solid var(--border)" }}
+      >
+        <span
+          className="text-xl font-bold tracking-tight"
+          style={{ color: "var(--text)", letterSpacing: "-0.04em" }}
+        >
+          ВАЙНАХ
+        </span>
+        <div className="flex items-center gap-2">
           <button
             onClick={() => setShowExplore(true)}
-            className="w-10 h-10 rounded-xl flex items-center justify-center transition-all hover:bg-white/5"
-            style={{ border: "1px solid var(--vn-border)" }}
+            className="w-9 h-9 rounded-lg flex items-center justify-center transition-all"
+            style={{ background: "var(--surface)", border: "1px solid var(--border)", color: "var(--text-2)" }}
           >
-            <Icon name="Compass" size={20} style={{ color: "rgba(255,255,255,0.6)" }} />
+            <Icon name="Compass" size={16} />
           </button>
-          <button className="w-10 h-10 rounded-xl flex items-center justify-center transition-all hover:bg-white/5 relative"
-            style={{ border: "1px solid var(--vn-border)" }}>
-            <Icon name="Bell" size={20} style={{ color: "rgba(255,255,255,0.6)" }} />
-            <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full" style={{ background: "var(--vn-orange)" }} />
+          <button
+            className="w-9 h-9 rounded-lg flex items-center justify-center relative transition-all"
+            style={{ background: "var(--surface)", border: "1px solid var(--border)", color: "var(--text-2)" }}
+          >
+            <Icon name="Bell" size={16} />
+            <span
+              className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full"
+              style={{ background: "var(--danger)" }}
+            />
           </button>
+          {theme && onThemeToggle && (
+            <ThemeToggle theme={theme} onToggle={onThemeToggle} />
+          )}
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto pb-4">
+      <div className="flex-1 overflow-y-auto">
         {/* Stories */}
-        <div className="px-4 py-3">
-          <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide" style={{ scrollbarWidth: "none" }}>
+        <div
+          className="px-4 py-3"
+          style={{ borderBottom: "1px solid var(--border)" }}
+        >
+          <div className="flex gap-3 overflow-x-auto pb-1" style={{ scrollbarWidth: "none" }}>
             {STORIES.map((story, i) => (
               <button
                 key={story.id}
@@ -189,26 +216,30 @@ const FeedScreen = ({ onExplore }: FeedScreenProps) => {
               >
                 <div className={i === 0 ? "" : story.seen ? "vn-story-ring-seen" : "vn-story-ring"}>
                   <div
-                    className="w-14 h-14 rounded-full flex items-center justify-center text-2xl relative"
+                    className="w-12 h-12 rounded-full flex items-center justify-center text-xl relative"
                     style={{
-                      background: "var(--vn-card-2)",
-                      border: i === 0 ? "2px solid var(--vn-border)" : "2px solid var(--vn-dark)",
+                      background: "var(--bg-3)",
+                      border: i === 0 ? "1px solid var(--border)" : `2px solid var(--bg)`,
                     }}
                   >
                     {story.avatar}
                     {i === 0 && (
-                      <div className="absolute -bottom-0.5 -right-0.5 w-5 h-5 rounded-full flex items-center justify-center"
-                        style={{ background: "var(--vn-orange)", border: "2px solid var(--vn-dark)" }}>
-                        <Icon name="Plus" size={10} className="text-white" />
+                      <div
+                        className="absolute -bottom-0.5 -right-0.5 w-4 h-4 rounded-full flex items-center justify-center"
+                        style={{ background: "var(--text)", border: `2px solid var(--bg)` }}
+                      >
+                        <Icon name="Plus" size={9} style={{ color: "var(--bg)" }} />
                       </div>
                     )}
                     {i > 0 && story.online && (
-                      <span className="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full border-2"
-                        style={{ background: "var(--vn-online)", borderColor: "var(--vn-dark)" }} />
+                      <span
+                        className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full border-2"
+                        style={{ background: "var(--online)", borderColor: "var(--bg)" }}
+                      />
                     )}
                   </div>
                 </div>
-                <span className="text-xs text-white/60 w-14 text-center truncate">
+                <span className="text-xs w-12 text-center truncate" style={{ color: "var(--text-3)" }}>
                   {story.name}
                 </span>
               </button>
@@ -216,31 +247,39 @@ const FeedScreen = ({ onExplore }: FeedScreenProps) => {
           </div>
         </div>
 
-        {/* Story viewer overlay */}
+        {/* Story viewer */}
         {activeStory !== null && (
           <div
             className="fixed inset-0 z-50 flex items-center justify-center animate-fade-in"
-            style={{ background: "rgba(0,0,0,0.95)" }}
+            style={{ background: "rgba(0,0,0,0.96)" }}
             onClick={() => setActiveStory(null)}
           >
-            <div className="text-center">
-              <div className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center text-3xl"
-                style={{ background: "var(--vn-grad)" }}>
-                {STORIES.find(s => s.id === activeStory)?.avatar}
+            <div className="text-center px-8">
+              <div
+                className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center text-3xl"
+                style={{ background: "var(--surface-2)", border: "1px solid var(--border-2)" }}
+              >
+                {STORIES.find((s) => s.id === activeStory)?.avatar}
               </div>
-              <p className="text-white font-bold text-lg">{STORIES.find(s => s.id === activeStory)?.name}</p>
-              <p className="text-white/50 text-sm mt-1">Опубликовано {STORIES.find(s => s.id === activeStory)?.time}</p>
-              <div className="mt-6 w-72 h-48 rounded-2xl mx-auto flex items-center justify-center"
-                style={{ background: "var(--vn-grad)" }}>
-                <span className="text-white text-4xl">🔥</span>
+              <p className="text-white font-semibold text-base">
+                {STORIES.find((s) => s.id === activeStory)?.name}
+              </p>
+              <p className="text-white/40 text-xs mt-1">
+                Опубликовано {STORIES.find((s) => s.id === activeStory)?.time}
+              </p>
+              <div
+                className="mt-6 w-72 h-48 rounded-xl mx-auto flex items-center justify-center"
+                style={{ background: "var(--surface)", border: "1px solid var(--border-2)" }}
+              >
+                <span className="text-5xl">🔥</span>
               </div>
-              <p className="text-white/40 text-sm mt-4">Нажми, чтобы закрыть</p>
+              <p className="text-white/30 text-xs mt-5">Нажми, чтобы закрыть</p>
             </div>
           </div>
         )}
 
         {/* Posts */}
-        <div className="px-4 space-y-3">
+        <div className="px-4 py-3 space-y-3">
           {posts.map((post) => (
             <PostCard key={post.id} post={post} onFire={handleFire} />
           ))}

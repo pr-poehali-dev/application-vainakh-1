@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AuthScreen from "@/components/vainakh/AuthScreen";
 import PrivacyScreen from "@/components/vainakh/PrivacyScreen";
 import ProfileSetupScreen from "@/components/vainakh/ProfileSetupScreen";
@@ -14,6 +14,11 @@ export interface UserData {
 }
 
 const Index = () => {
+  useEffect(() => {
+    const saved = localStorage.getItem("vn-theme") || "dark";
+    document.documentElement.setAttribute("data-theme", saved);
+  }, []);
+
   const [step, setStep] = useState<AppStep>("auth");
   const [userData, setUserData] = useState<UserData>({
     email: "",
