@@ -19,7 +19,7 @@ const BottomNav = ({ active, onChange, unreadChats = 0 }: BottomNavProps) => (
   <nav
     className="fixed bottom-0 left-0 right-0 z-50 flex items-center"
     style={{
-      background: "var(--bg)",
+      background: "var(--bg-2)",
       borderTop: "1px solid var(--border)",
       height: "68px",
       maxWidth: "448px",
@@ -43,18 +43,23 @@ const BottomNav = ({ active, onChange, unreadChats = 0 }: BottomNavProps) => (
               {unreadChats}
             </span>
           )}
-          <Icon
-            name={tab.icon}
-            size={20}
-            style={{
-              color: isActive ? "var(--text)" : "var(--text-3)",
-              strokeWidth: isActive ? 2.5 : 1.8,
-            }}
-          />
+          <div
+            className="flex items-center justify-center w-10 h-8 rounded-xl transition-all"
+            style={{ background: isActive ? "var(--accent-bg)" : "transparent" }}
+          >
+            <Icon
+              name={tab.icon}
+              size={20}
+              style={{
+                color: isActive ? "var(--accent)" : "var(--text-3)",
+                strokeWidth: isActive ? 2.5 : 1.8,
+              }}
+            />
+          </div>
           <span
-            className="text-xs tracking-tight"
+            className="text-xs"
             style={{
-              color: isActive ? "var(--text)" : "var(--text-3)",
+              color: isActive ? "var(--accent)" : "var(--text-3)",
               fontWeight: isActive ? 600 : 400,
             }}
           >

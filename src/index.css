@@ -2,96 +2,100 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ─── DARK THEME (default) ─── */
+/* ─── ПОЛНОЧНЫЙ СИНИЙ (default) ─── */
 :root,
 [data-theme="dark"] {
-  --bg: #0a0a0a;
-  --bg-2: #111111;
-  --bg-3: #191919;
-  --surface: #1c1c1c;
-  --surface-2: #242424;
-  --border: #2a2a2a;
-  --border-2: #333333;
+  --bg: #060d1f;
+  --bg-2: #0a1428;
+  --bg-3: #0f1d38;
+  --surface: #121f3d;
+  --surface-2: #172447;
+  --border: #1e3060;
+  --border-2: #253870;
 
-  --text: #f0f0f0;
-  --text-2: #999999;
-  --text-3: #555555;
+  --text: #eff6ff;
+  --text-2: #93c5fd;
+  --text-3: #4b6fa8;
 
-  --accent: #f0f0f0;
-  --accent-bg: rgba(240, 240, 240, 0.08);
+  --accent: #60a5fa;
+  --accent-dark: #3b82f6;
+  --accent-bg: rgba(96, 165, 250, 0.12);
+  --accent-border: rgba(96, 165, 250, 0.25);
 
-  --online: #4ade80;
+  --online: #34d399;
   --recent: #60a5fa;
   --danger: #f87171;
 
   /* shadcn compat */
-  --background: 0 0% 4%;
-  --foreground: 0 0% 94%;
-  --card: 0 0% 7%;
-  --card-foreground: 0 0% 94%;
-  --popover: 0 0% 7%;
-  --popover-foreground: 0 0% 94%;
-  --primary: 0 0% 94%;
-  --primary-foreground: 0 0% 4%;
-  --secondary: 0 0% 11%;
-  --secondary-foreground: 0 0% 94%;
-  --muted: 0 0% 11%;
-  --muted-foreground: 0 0% 55%;
-  --accent: 0 0% 11%;
-  --accent-foreground: 0 0% 94%;
+  --background: 220 50% 8%;
+  --foreground: 213 100% 97%;
+  --card: 222 55% 14%;
+  --card-foreground: 213 100% 97%;
+  --popover: 222 55% 14%;
+  --popover-foreground: 213 100% 97%;
+  --primary: 213 94% 68%;
+  --primary-foreground: 220 50% 8%;
+  --secondary: 222 55% 18%;
+  --secondary-foreground: 213 100% 97%;
+  --muted: 222 45% 16%;
+  --muted-foreground: 213 50% 62%;
+  --accent: 222 55% 18%;
+  --accent-foreground: 213 100% 97%;
   --destructive: 0 62% 60%;
   --destructive-foreground: 0 0% 100%;
-  --border: 0 0% 16%;
-  --input: 0 0% 11%;
-  --ring: 0 0% 94%;
+  --border: 222 55% 24%;
+  --input: 222 45% 16%;
+  --ring: 213 94% 68%;
   --radius: 0.75rem;
-  --sidebar-background: 0 0% 4%;
-  --sidebar-foreground: 0 0% 90%;
-  --sidebar-primary: 0 0% 94%;
-  --sidebar-primary-foreground: 0 0% 4%;
-  --sidebar-accent: 0 0% 11%;
-  --sidebar-accent-foreground: 0 0% 90%;
-  --sidebar-border: 0 0% 16%;
-  --sidebar-ring: 0 0% 94%;
+  --sidebar-background: 220 50% 8%;
+  --sidebar-foreground: 213 100% 97%;
+  --sidebar-primary: 213 94% 68%;
+  --sidebar-primary-foreground: 220 50% 8%;
+  --sidebar-accent: 222 55% 18%;
+  --sidebar-accent-foreground: 213 100% 97%;
+  --sidebar-border: 222 55% 24%;
+  --sidebar-ring: 213 94% 68%;
 }
 
-/* ─── LIGHT THEME ─── */
+/* ─── СВЕТЛАЯ ТЕМА ─── */
 [data-theme="light"] {
-  --bg: #f5f5f5;
-  --bg-2: #efefef;
-  --bg-3: #e8e8e8;
+  --bg: #f0f6ff;
+  --bg-2: #e8f0fe;
+  --bg-3: #dbeafe;
   --surface: #ffffff;
-  --surface-2: #f8f8f8;
-  --border: #e0e0e0;
-  --border-2: #d0d0d0;
+  --surface-2: #f5f9ff;
+  --border: #bfdbfe;
+  --border-2: #93c5fd;
 
-  --text: #111111;
-  --text-2: #666666;
-  --text-3: #aaaaaa;
+  --text: #0f172a;
+  --text-2: #1d4ed8;
+  --text-3: #64748b;
 
-  --accent: #111111;
-  --accent-bg: rgba(0, 0, 0, 0.06);
+  --accent: #2563eb;
+  --accent-dark: #1d4ed8;
+  --accent-bg: rgba(37, 99, 235, 0.08);
+  --accent-border: rgba(37, 99, 235, 0.2);
 
   --online: #16a34a;
   --recent: #2563eb;
   --danger: #dc2626;
 
   /* shadcn compat */
-  --background: 0 0% 96%;
-  --foreground: 0 0% 7%;
+  --background: 213 100% 97%;
+  --foreground: 222 47% 11%;
   --card: 0 0% 100%;
-  --card-foreground: 0 0% 7%;
+  --card-foreground: 222 47% 11%;
   --popover: 0 0% 100%;
-  --popover-foreground: 0 0% 7%;
-  --primary: 0 0% 7%;
+  --popover-foreground: 222 47% 11%;
+  --primary: 221 83% 53%;
   --primary-foreground: 0 0% 100%;
-  --secondary: 0 0% 94%;
-  --secondary-foreground: 0 0% 7%;
-  --muted: 0 0% 93%;
-  --muted-foreground: 0 0% 45%;
-  --border: 0 0% 88%;
-  --input: 0 0% 93%;
-  --ring: 0 0% 7%;
+  --secondary: 213 100% 93%;
+  --secondary-foreground: 222 47% 11%;
+  --muted: 213 100% 93%;
+  --muted-foreground: 215 16% 47%;
+  --border: 213 68% 81%;
+  --input: 213 100% 93%;
+  --ring: 221 83% 53%;
 }
 
 @layer base {
@@ -126,7 +130,6 @@
 }
 
 @layer utilities {
-  /* Cards */
   .vn-card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -136,21 +139,20 @@
     border: 1px solid var(--border);
   }
 
-  /* Glass */
   .vn-glass {
-    background: rgba(10, 10, 10, 0.88);
+    background: rgba(6, 13, 31, 0.88);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
     border-bottom: 1px solid var(--border);
   }
   [data-theme="light"] .vn-glass {
-    background: rgba(245, 245, 245, 0.88);
+    background: rgba(240, 246, 255, 0.9);
   }
 
-  /* Primary button — filled black/white */
+  /* Accent button — синий */
   .vn-btn {
-    background: var(--text);
-    color: var(--bg);
+    background: var(--accent-dark);
+    color: #fff;
     font-weight: 600;
     letter-spacing: -0.01em;
     transition:
@@ -165,9 +167,21 @@
     transform: translateY(0);
   }
 
+  /* Ghost button */
+  .vn-btn-ghost {
+    background: var(--accent-bg);
+    color: var(--accent);
+    border: 1px solid var(--accent-border);
+    font-weight: 500;
+    transition: opacity 0.15s;
+  }
+  .vn-btn-ghost:hover {
+    opacity: 0.8;
+  }
+
   /* Story rings */
   .vn-story-ring {
-    background: var(--text);
+    background: var(--accent);
     padding: 2px;
     border-radius: 50%;
   }
